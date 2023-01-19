@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Boormag.apps.BoormagConfig',
-    "rest_framework"
+    "rest_framework",
+    'basket', # Подключили приложение корзина
 ]
 
 MIDDLEWARE = [

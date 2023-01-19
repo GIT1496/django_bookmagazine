@@ -1,26 +1,30 @@
-<html><head></head><body>{% extends 'base.html' %}
+<html><head><style type="text/css" id="operaUserStyle"></style></head><body>{% extends 'base.html' %}
 
 {% block title %}
-    {{ title }}
+    {{ library_item.name }}
 {% endblock %}
 
 {% block content %}
-    <p>Название книги: {{ object.name }}</p>
-    <p>Описание: {{ object.description }}</p>
-    <p>Автор книги: {{ object.authors }}</p>
-    <p>Количество страниц: {{ object.number_pages }}</p>
-    <p>Цена: {{ object.price }}</p>
-    <p>Размер: {{ object.sizes }}</p>
-    <p>Дата публикации: {{ object.date_publication }}</p>
-    <p>Тип обложки: {{ object.cover_type }}</p>
-
-
+    <p>Название книги: {{ library_item.name }}</p>
+    <p>Описание: {{ library_item.description }}</p>
+    <p>Автор книги: {{ library_item.authors }}</p>
+    <p>Количество страниц: {{ library_item.number_pages }}</p>
+    <p>Цена: {{ library_item.price }}</p>
+    <p>Размер: {{ library_item.sizes }}</p>
+    <p>Дата публикации: {{ library_item.date_publication }}</p>
+    <p>Тип обложки: {{ library_item.cover_type }}</p>
+    <form method="post" action="{% url 'add_basket' library_item.pk %}">
+    {% csrf_token %}
+    {{ form_basket }}
+    <input type="submit" class="btn-success" value="Добавить в корзину">
+    </form>
+    <a href="{% url 'list_library' %}" class="btn btn-info">Назад</a><br>
     {% if perms.Boormag.change_Library %}
-        <a href="{% url 'edit_lib_view' object.pk %}" class="btn btn-warning">Редактировать</a><br>
+        <a href="{% url 'edit_lib_view' library_item.pk %}" class="btn btn-warning">Редактировать</a><br>
     {% endif %}
 
     {% if perms.Boormag.delete_Library %}
-    <a href="{% url 'delete_library_view' object.pk %}" class="btn btn-danger">Удалить</a><br>
+    <a href="{% url 'delete_library_view' library_item.pk %}" class="btn btn-danger">Удалить</a><br>
     {% endif %}
 
 
@@ -35,10 +39,8 @@
     </form>
     {% endcomment %}
 
-    <a href="{% url 'list_lib_view' %}" class="btn btn-info">Назад</a><br>
+
 {% endblock %}</body></html>
-
-
 
 
 

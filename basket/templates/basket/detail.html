@@ -1,4 +1,4 @@
-<html><head></head><body>{% extends 'base.html' %}
+<html><head><style type="text/css" id="operaUserStyle"></style></head><body>{% extends 'base.html' %}
 
 {% load static %}
 
@@ -8,16 +8,13 @@
 
 {% block content %}
     <div class="container">
-
             {% for item in basket %}
-                {% with product_obj=item.fruit %}
+                {% with product_obj=item.library %}
 
-                {% endwith %}
-            {% endfor %}
             <table class="table">
             <thead>
             <tr>
-                <th scope="col">Фрукт</th>
+                <th scope="col">Книга</th>
                 <th scope="col">Картинка</th>
                 <th scope="col">Количество</th>
                 <th scope="col">Цена за шт</th>
@@ -25,17 +22,19 @@
                 <th scope="col">Общая цена</th>
                 <th scope="col">Удаление</th>
             </tr>
-            </thead>
-            <tbody><tr>
+  </thead>
+  <tbody>
+    <tr class="table-active">
+      <tbody>
+            <tr>
                         <th scope="row">
-                            <a href="{{ product_obj.get_absolute_url }}">
-                                {{ product_obj.name }}
+                                        <a href="{{ product_obj.get_absolute_url }}">{{ product_obj.name }}
                             </a>
                         </th>
+
                         <td>
                             {% if product_obj.photo %}
                                 <img src="{{ product_obj.photo.url }}" class="card-img-top" alt="...">
-
                             {% else %}
                                 {# <img src="/media/icon_fruit.jpg" class="card-img-top" alt="..."> #}
                                 {# <img src="https://grandgames.net/puzzle/source_v/yagodnoe_assorti.jpg" class="card-img-top" alt="..."> #}
@@ -59,10 +58,15 @@
         </table>
 
         <div>
-            <a href="{% url 'list_lib' %}" class="btn btn-info">Посмотреть еще фруктов</a>
+            <a href="{% url 'list_library' %}" class="btn btn-info">Посмотреть еще фруктов</a>
             <a href="#" class="btn btn-success">Оформить заказ</a>
             <a href="{% url 'clear_basket_prod' %}" class="btn btn-danger">Очистить корзину</a>
         </div>
     </div>
+                    {% endwith %}
+            {% endfor %}
 {% endblock %}
+      <th scope="row">3</th>
+      <td colspan="2" class="table-active">Larry the Bird</td>
 </body></html>
+

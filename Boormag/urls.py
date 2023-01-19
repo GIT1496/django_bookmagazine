@@ -6,10 +6,10 @@ from Boormag.views import *
 
 urlpatterns = [
     path('', index_template, name='index_library'),
-    # path('list/',library_template, name='list_library'),
-    path('library/view/All/', BookListView.as_view(), name='list_lib_view'),
-    path('library/view/<int:library_id>', BookDetailView.as_view(), name='info_lib_view'),
-    # path('list/<int:library_id>/', library_detail, name='one_library'),
+    path('list/', library_template, name='list_library'),
+    # path('library/view/All/', BookListView.as_view(), name='list_lib_view'),
+    #path('library/view/<int:library_id>', BookDetailView.as_view(), name='info_lib_view'),
+    path('list/<int:library_id>/', library_detail, name='one_library'),
     path ('library/view/add/', BookCreateView.as_view(), name='add_lib_view'),
     path('library/view/edit/<int:pk>', BookUpdateView.as_view(), name='edit_lib_view'),
     path('library/view/delete/<int:pk>', BookDeleteView.as_view(), name='delete_library_view'),
