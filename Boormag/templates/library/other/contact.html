@@ -1,0 +1,28 @@
+<html><head></head><body>{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="input-group mb-3">
+
+            {{ form.subject.label }}:
+
+            {{ form.subject }}
+        </div>
+
+        <div>
+            {{ form.content.label }}
+            {{ form.content }}
+        </div>
+
+        <input class="btn btn-success" type="submit" value="Отправить письмо">
+    </form>
+    <div>
+    <a class="btn btn-danger" href="{% url 'list_lib_view' %}">Возврат на каталог книг</a>
+    </div>
+{% endblock %}</body></html>

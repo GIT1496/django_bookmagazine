@@ -1,0 +1,93 @@
+<html><head></head><body>{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {{ title }}
+
+{% endblock %}
+
+
+
+
+{% block content %}
+    <div>
+        <h1>Список авторов книг</h1>
+           {{ info }}<br>
+{#        {% if perms.Boormag.add_Aythor %}#}
+{#    <a href="{% url 'add_author_view' %}" class="btn  btn-outline-primary">Добавить автора</a><br>#}
+{#    {% endif %}#}
+
+        <div class="m-auto">
+            {% for item in page_obj.object_list %}
+
+                <div class="card" style="width: 18rem;">
+
+                    {% if item.photo %}
+                        <img src="{{ item.photo.url }}" class="card-img-top" alt="...">
+
+                    {% else %}
+                        {# <img src="/media/icon_fruit.jpg" class="card-img-top" alt="..."> #}
+                        {# <img src="https://grandgames.net/puzzle/source_v/yagodnoe_assorti.jpg" class="card-img-top" alt="..."> #}
+                        <img src="{% static 'image/icon-author.jpg' %}" class="card-img-top" alt="...">
+
+                    {% endif %}
+
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name2 }}</h5>
+                        <p class="card-text">{{ item.firstname }}</p>
+                        <p class="card-text">{{ item.lastname }}</p>
+                        <p class="card-text">{{ item.date_of_birth }}</p>
+                        <p class="card-text">{{ item.date_of_death }}</p>
+                       <a href="{% url 'info_author_view' item.pk %} " class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination pagination-lg justify-content-center">
+
+                {% if page_obj.has_previous %} {# Проверка наличии предыдущей страницы #}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            {# ^получения номера предыдущей страницы^ #}
+                            <span aria-hidden="true">«</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for p in page_obj.paginator.page_range %} {# Перечисление страниц из пагинатора #}
+                    {% if p == page_obj.number %} {# Проверка текущей страницы со списком страницы #}
+                        {# Отображение страницы на которой находится пользователь #}
+                        <li class="page-item active" aria-current="page"><a class="page-link" href="#">{{ p }}</a></li>
+                        {# Вывод всех остальных страниц #}
+                    {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                        {# p &gt; page_obj.number - 3 #} {# 8 &gt; 10 - 3 #}
+                        <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+
+                    {% endif %}
+
+                {% endfor %}
+
+                {% if page_obj.has_next %} {# Проверка наличии следующей страницы #}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            {# ^получения номера следующей страницы^ #}
+                            <span aria-hidden="true">»</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
+
+
+
+</body></html>
+
+
+

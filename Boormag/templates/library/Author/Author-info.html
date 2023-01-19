@@ -1,0 +1,41 @@
+<html><head></head><body>{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <div class="card" style="width: 40rem;">
+    {% if object.photo %}
+                        <img src="{{ object.photo.url }}" class="card-img-top" alt="...">
+
+    {% else %}
+                        {# <img src="/media/icon_fruit.jpg" class="card-img-top" alt="..."> #}
+                        {# <img src="https://grandgames.net/puzzle/source_v/yagodnoe_assorti.jpg" class="card-img-top" alt="..."> #}
+        <img src="{% static 'image/icon-author.jpg' %}" class="card-img-top" alt="...">
+
+                    {% endif %}
+
+    <p>ФИО автора: {{ object.name2 }} {{ object.firstname }} {{ object.lastname }}</p>
+    <p>Биография автора: {{ object.biograf }}</p>
+    <p>Годы жизни: с {{ object.date_of_birth }} по {{ object.date_of_death }} </p>
+    <p>Книги автора: {{ object.librarys }} </p>
+   </div>
+
+    {% if perms.Boormag.change_Author %}
+        <a href="{% url 'edit_author_view' object.pk %}" class="btn btn-warning">Редактировать</a><br>
+    {% endif %}
+
+
+    {% if perms.Boormag.delete_Author %}
+        <a href="{% url 'delete_author_view' object.pk %}" class="btn btn-danger">Удалить</a><br><br>
+    {% endif %}
+
+
+{% endblock %}
+
+
+
+

@@ -1,0 +1,11 @@
+<html><head></head><body>{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1>Ошибка 500. Внутренняя ошибка сервера</h1>
+
+    <a class="btn btn-info" href="{% url 'list_lib_view' %}">Каталог книг</a>
+{% endblock %}</body></html>

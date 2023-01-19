@@ -1,0 +1,15 @@
+<html><head></head><body>{% extends 'base.html' %}
+
+{% block title %}
+    Удаление: {{ object }}
+{% endblock %}
+
+{% block content %}
+
+    <form method="post" action="{% url 'delete_author_view' object.pk %}">
+        {% csrf_token %}
+        <p>Действительно ли вы хотите удалить автора: {{ object.title }}?</p>
+        <input type="submit" class="btn btn-danger" value="Подтвердить удаление"><br>
+    </form>
+    <a href="{% url 'list_author_view' %}" class="btn btn-success">Не удалять</a><br>
+{% endblock %}</body></html>

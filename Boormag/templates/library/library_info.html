@@ -1,0 +1,45 @@
+<html><head></head><body>{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <p>Название книги: {{ object.name }}</p>
+    <p>Описание: {{ object.description }}</p>
+    <p>Автор книги: {{ object.authors }}</p>
+    <p>Количество страниц: {{ object.number_pages }}</p>
+    <p>Цена: {{ object.price }}</p>
+    <p>Размер: {{ object.sizes }}</p>
+    <p>Дата публикации: {{ object.date_publication }}</p>
+    <p>Тип обложки: {{ object.cover_type }}</p>
+
+
+    {% if perms.Boormag.change_Library %}
+        <a href="{% url 'edit_lib_view' object.pk %}" class="btn btn-warning">Редактировать</a><br>
+    {% endif %}
+
+    {% if perms.Boormag.delete_Library %}
+    <a href="{% url 'delete_library_view' object.pk %}" class="btn btn-danger">Удалить</a><br>
+    {% endif %}
+
+
+
+
+
+
+    {% comment %}
+    <form method="post" action="{% url 'delete_supp_view' object.pk %}">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-danger" value="Удалить">
+    </form>
+    {% endcomment %}
+
+    <a href="{% url 'list_lib_view' %}" class="btn btn-info">Назад</a><br>
+{% endblock %}</body></html>
+
+
+
+
+
+

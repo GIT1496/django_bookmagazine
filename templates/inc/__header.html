@@ -1,0 +1,39 @@
+<html><head></head><body><header class="d-flex justify-content-center py-3">
+    <ul class="nav nav-pills">
+        <li class="nav-item"><a href="{% url 'index_library' %}" class="nav-link active" aria-current="page">Домашняя страница</a></li>
+        <li class="nav-item"><a href="{% url 'list_lib_view' %}" class="btn btn-outline-primary">Список книг</a></li>
+        {% if perms.Boormag.add_Author %}
+     <li class="navbar-brand"><a href="{% url 'list_author_view' %}" class="btn btn-outline-primary">Список авторов</a></li>
+        {% endif %}
+
+
+
+
+
+
+        {% if perms.Boormag.add_Library %}
+    <a href="{% url 'add_lib_view' %}" class="btn btn-outline-primary">Добавить книгу</a><br>
+    {% endif %}
+    {% if perms.Boormag.add_Author %}
+     <li class="navbar-brand"><a href="{% url 'add_author_view' %}" class="btn btn-outline-primary">Добавить автора</a></li>
+        {% endif %}
+    </ul>
+    <div class="col-md-3 text-end">
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="btn btn-primary">Выход</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">Авторизация</a>
+            <a href="{% url 'registration' %}" class="btn btn-primary">Регистрация</a>
+        {% endif %}
+    </div>
+</header></body></html>
+
+
+
+
+
+
+
+
+
+
