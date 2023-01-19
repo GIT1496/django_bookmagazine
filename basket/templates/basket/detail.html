@@ -1,0 +1,68 @@
+<html><head></head><body>{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Корзина
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+            {% for item in basket %}
+                {% with product_obj=item.fruit %}
+
+                {% endwith %}
+            {% endfor %}
+            <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Фрукт</th>
+                <th scope="col">Картинка</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Цена за шт</th>
+                <th scope="col">Валюта</th>
+                <th scope="col">Общая цена</th>
+                <th scope="col">Удаление</th>
+            </tr>
+            </thead>
+            <tbody><tr>
+                        <th scope="row">
+                            <a href="{{ product_obj.get_absolute_url }}">
+                                {{ product_obj.name }}
+                            </a>
+                        </th>
+                        <td>
+                            {% if product_obj.photo %}
+                                <img src="{{ product_obj.photo.url }}" class="card-img-top" alt="...">
+
+                            {% else %}
+                                {# <img src="/media/icon_fruit.jpg" class="card-img-top" alt="..."> #}
+                                {# <img src="https://grandgames.net/puzzle/source_v/yagodnoe_assorti.jpg" class="card-img-top" alt="..."> #}
+                                <img src="{% static 'image/icon-book.jpg' %}" class="card-img-top" alt="...">
+
+                            {% endif %}
+                        </td>
+                        <td>{{ item.count_prod }}</td>
+                        <td>{{ item.price_prod }}</td>
+                        <td>руб</td>
+                        <td>{{ item.total_price }}</td>
+                        <td>
+                            <a href="{% url 'remove_basket_prod' product_obj.pk %}" class="btn btn-danger">Удалить</a>
+                        </td>
+                    </tr><tr>
+                <td>Всего:</td>
+                <td colspan="4"></td>
+                <td>{{ basket.get_total_full_price }} руб.</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <a href="{% url 'list_lib' %}" class="btn btn-info">Посмотреть еще фруктов</a>
+            <a href="#" class="btn btn-success">Оформить заказ</a>
+            <a href="{% url 'clear_basket_prod' %}" class="btn btn-danger">Очистить корзину</a>
+        </div>
+    </div>
+{% endblock %}
+</body></html>
