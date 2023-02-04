@@ -26,6 +26,7 @@ from django.conf.urls import handler403
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('basket/', include('basket.urls')),
+    path('orders/', include('orders.urls')),
     path('library/', include('Boormag.urls')),
 ]
 

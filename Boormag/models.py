@@ -10,7 +10,7 @@ class Library(models.Model):
     date_publication = models.DateField(null=False, verbose_name='Дата публикации книги')
     cover_type = models.TextField (blank=True, null=True, verbose_name='Тип обожки книги')
     photo = models.ImageField(upload_to='image/%Y/%m/%d', null=True, verbose_name='Фотография книги')
-    authors = models.ForeignKey('Author', on_delete=models.DO_NOTHING, null=True, verbose_name='Автор книги')
+    authors = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True, verbose_name='Автор книги')
 
     def get_absolute_url(self):  # тэг url для объекта (Данный метод для вывода странички одной записи)
         return reverse('one_library', kwargs={'library_id': self.pk})
