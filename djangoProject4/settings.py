@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Boormag.apps.BoormagConfig',
     "rest_framework",
     'basket', # Подключили приложение корзина
+    'orders', # Подключение приложения заказы
 ]
 
 MIDDLEWARE = [
