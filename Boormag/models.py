@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse, reverse_lazy
 
 class Library(models.Model):
-    name = models.CharField(max_length=120, null=True, verbose_name='Название книги')
+    name = models.CharField(max_length=120, null=True, default='library', verbose_name='Название книги')
     description = models.TextField(blank=True, null=False, verbose_name='Описание книги')
     number_pages = models.IntegerField(null=False, verbose_name='Количество страниц в книге')
     price = models.FloatField(null=True, verbose_name='Цена книги')
@@ -13,7 +13,7 @@ class Library(models.Model):
     authors = models.ForeignKey('Author', on_delete=models.DO_NOTHING, null=True, verbose_name='Автор книги')
 
     def get_absolute_url(self):  # тэг url для объекта (Данный метод для вывода странички одной записи)
-        return reverse('info_lib_view', kwargs={'library_id': self.pk})
+        return reverse('one_library', kwargs={'library_id': self.pk})
 
     def __str__(self):
         return self.name

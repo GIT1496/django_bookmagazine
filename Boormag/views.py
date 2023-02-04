@@ -7,6 +7,8 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import RegistrationForm, LoginForm
 
+from django.core.paginator import Paginator
+
 
 
 from django.contrib.auth import login, logout
@@ -28,6 +30,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 
+#SESSION
+from basket.forms import BasketAddProductForm
 
 def index_template(request):
         return render(request, 'library/index.html')
@@ -41,15 +45,49 @@ def request_info(request):
         return render(request, 'info/request.html', {'req_item': request})
 
 # Книги
-class BookListView(ListView, Default_value):  # Возврат листа объектов
-    model = Library # определение таблицы для взаимодействия
-    template_name = 'library/library_All.html'  # путь шаблона (<Имя приложения>/<Имя модели>_list.html)
-    context_object_name = 'Library'  # Отправка данных по заданному ключу (object_list)
-    extra_context = {'title': 'Список книг из класса'}  # Доп. значения (статичные данные)
+# class BookListView(ListView, Default_value):  # Возврат листа объектов
+#     model = Library # определение таблицы для взаимодействия
+#     template_name = 'library/library_All.html'  # путь шаблона (<Имя приложения>/<Имя модели>_list.html)
+#     context_object_name = 'Library'  # Отправка данных по заданному ключу (object_list)
+#     extra_context = {'title': 'Список книг из класса'}  # Доп. значения (статичные данные)
+#
+#
+#     paginate_by = 2
 
+def library(request):
+    librarys = Library.objects.all()  # Возврат всех записей из БД
+    response = '<h1>Список книг</h1>'
+    for item in librarys:
+        response += f'<div>\n<p>{item.name}</p>\n<p>{item.price}</p></div>'
+    # responce += '<h2>Pear</h2>'
+    # responce += '<h3>Banan</h3>'
+    # responce += '<h4>Avocado</h4>'
+    return HttpResponse(response)
 
-    paginate_by = 2
+def library_template(request):
+    context = {'title': 'Книги'}
 
+    librarys = Library.objects.all()
+    context['library_list'] = librarys
+
+    # Paginator
+    paginator = Paginator(librarys, 1)  # Создаем пагинатор из списка фруктов и делаем страницы по 3 элемента
+    page_num = request.GET.get('page', 1)  # Получение страницы, на которой находится наш пользователь
+    page_objects = paginator.get_page(page_num)  # Получение группы элементов(3) по номеру страницы
+    context['page_obj'] = page_objects  # Передача данных на .html
+
+    print(page_objects.object_list)
+    # context = {
+    #     'title': 'Фрукты',
+    #     'fruit_list': fruits,
+    #     'fruit_one': fruit_one,
+    #     'name': name
+    # }
+    return render(
+        request=request,
+        template_name='library/library_All.html',
+        context=context
+    )
 # Авторы
 class AutorListView(ListView, Default_value):  # Возврат листа объектов
     model = Author # определение таблицы для взаимодействия
@@ -68,12 +106,22 @@ class AutorListView(ListView, Default_value):  # Возврат листа об�
 
 # Книги
 
-class BookDetailView(DetailView):
-    model = Library
-    template_name = 'library/library_info.html'
-    context_object_name = 'one_library'  # (object)
-    pk_url_kwarg = 'library_id'
-    allow_empty = False  # Возврат 404 при отсутствии данных
+# class BookDetailView(DetailView):
+#     model = Library
+#     template_name = 'library/library_info.html'
+#     context_object_name = 'object'  # (object)
+#     form = BasketAddProductForm()
+#     extra_context = {'form_basket': form}  # Доп. значения (статичные данные)
+#     pk_url_kwarg = 'library_id'
+#     allow_empty = False  # Возврат 404 при отсутствии данных
+
+def library_detail(request, library_id):
+    library = Library.objects.get(pk=library_id)
+    # library = get_object_or_404(Library, pk=library_id)
+    # context = dict()
+    # context['fruit_item'] = fruit
+    form = BasketAddProductForm()
+    return render(request, 'library/library_info.html', {'library_item': library, 'form_basket': form})
 
 
 # Авторы
@@ -91,7 +139,7 @@ class BookCreateView(CreateView):
     form_class = BookForm  # Определение формы для взаимодействия
     template_name = 'library/library_add.html'
     context_object_name = 'form'  # Переопределение ключа формы (object)
-    success_url = reverse_lazy('list_lib_view')
+    success_url = reverse_lazy('library_list')
 
 
 # def author_add(request):
@@ -208,7 +256,7 @@ def user_login(request):
             print(request.user.is_authenticated)
             print(request.user.is_anonymous)
             messages.success(request, 'Вы успешно авторизовались')
-            return redirect('list_lib_view')
+            return redirect('list_library')
         messages.error(request, 'Авторизация прошла с ошибкой, перепроверьте логин и/или пароль')
     else:
         form = LoginForm()
@@ -304,7 +352,7 @@ def send_contact_email(request):
             )
             if mail:
                 messages.success(request, 'Письмо было успешно отправлено')
-                return redirect('list_lib_view')
+                return redirect('list_library')
             else:
                 messages.error(request, 'Письмо не удалось успешно отправить')
         else:
@@ -394,3 +442,4 @@ def get_session_info(request):
 
 def get_session_info_full(request):
     return HttpResponse(request.session.items())
+
