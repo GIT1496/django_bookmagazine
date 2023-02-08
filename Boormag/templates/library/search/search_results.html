@@ -1,0 +1,14 @@
+<html><head><style type="text/css" id="operaUserStyle"></style></head><body>{% extends 'base.html' %}
+
+{% block content %}
+<h1>Результат поиска</h1>
+
+<ul>
+  {% for order in object_list %}
+    <li>
+      {{ order.id }}, {{ order.status }}
+    </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

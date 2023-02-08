@@ -1,0 +1,11 @@
+<html><head></head><body>{% extends 'base.html' %}
+
+{% block content %}
+<h1>Страница поиска заказа</h1>
+
+<form action="{% url 'search_results' %}" method="get">
+  <input name="q" type="text" placeholder="Введите номер заказа">
+    <td align="center"><input type="submit" value="Поиск заказа" ></td>
+</form>
+
+{% endblock %}
